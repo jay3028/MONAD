@@ -12,6 +12,8 @@ export default function GeometricDesign() {
   const orbitalContainerRef = useRef(null);
   const orbitalAnimationFrameRef = useRef(null);
 
+  const mainContainerRef = useRef(null);
+
   // Smooth mouse following with premium easing
   useEffect(() => {
     const updateSmoothPosition = () => {
@@ -63,6 +65,7 @@ export default function GeometricDesign() {
       }
     };
   }, [orbitalMousePosition]);
+
 
   // Mouse tracking with distance-based activation
   const handleMouseMove = (e) => {
@@ -156,8 +159,63 @@ export default function GeometricDesign() {
             stroke-dashoffset: 14;
           }
         }
+        
+        @keyframes rotateEllipse1 {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+        
+        @keyframes rotateEllipse2 {
+          0% {
+            transform: rotate(60deg);
+          }
+          100% {
+            transform: rotate(420deg);
+          }
+        }
+        
+        @keyframes rotateEllipse3 {
+          0% {
+            transform: rotate(120deg);
+          }
+          100% {
+            transform: rotate(480deg);
+          }
+        }
+        
+        @keyframes dashMove1 {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: 28;
+          }
+        }
+        
+        @keyframes dashMove2 {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: -28;
+          }
+        }
+        
+        @keyframes dashMove3 {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: 28;
+          }
+        }
       `}</style>
       <div 
+        ref={mainContainerRef}
         className="w-full min-h-screen flex flex-col overflow-hidden relative"
         style={{
           backgroundColor: '#fefefe'
@@ -542,6 +600,278 @@ export default function GeometricDesign() {
             </svg>
           </div>
         </div>
+
+        {/* Third Design - Vertical Bars with Circle Connection */}
+        <div 
+          className="w-full h-screen flex items-center justify-center overflow-hidden relative"
+          style={{
+            backgroundColor: '#fefefe'
+          }}
+        >
+          {/* Subtle dot grid background */}
+          <div 
+            className="absolute inset-0 pointer-events-none" 
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(42, 42, 42, 0.15) 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              backgroundPosition: '0 0'
+            }} 
+          />
+
+          {/* Main container */}
+          <div 
+            className="relative flex flex-col items-center justify-center pointer-events-none"
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute'
+            }}
+          >
+            {/* Central Circle Design - Image 2 */}
+            <div 
+              className="absolute"
+              style={{
+                top: '30%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none'
+              }}
+            >
+              <svg 
+                width="300"
+                height="300"
+                viewBox="0 0 300 300"
+              >
+                <defs>
+                  <radialGradient id="blueGlow" cx="50%" cy="50%">
+                    <stop offset="0%" stopColor="rgba(100, 149, 237, 0.6)" />
+                    <stop offset="50%" stopColor="rgba(100, 149, 237, 0.3)" />
+                    <stop offset="100%" stopColor="rgba(100, 149, 237, 0)" />
+                  </radialGradient>
+                </defs>
+                
+                {/* Outermost faint grey outline ring */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="140"
+                  fill="none"
+                  stroke="rgba(100, 100, 100, 0.2)"
+                  strokeWidth="1"
+                />
+                
+                {/* Second expanding ring - light blue glow */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="120"
+                  fill="url(#blueGlow)"
+                  stroke="rgba(100, 149, 237, 0.4)"
+                  strokeWidth="1"
+                />
+                
+                {/* First expanding ring - brighter blue glow */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="100"
+                  fill="rgba(100, 149, 237, 0.5)"
+                  stroke="rgba(100, 149, 237, 0.6)"
+                  strokeWidth="1"
+                />
+                
+                {/* Central solid blue circle with dark outline */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="50"
+                  fill="rgba(100, 149, 237, 0.7)"
+                  stroke="#000000"
+                  strokeWidth="1.5"
+                />
+                
+                {/* Innermost dark center dot */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="15"
+                  fill="#000000"
+                />
+              </svg>
+            </div>
+
+            {/* Connecting line from circle to bars - Image 2 */}
+            <div 
+              className="absolute"
+              style={{
+                top: '30%',
+                left: '50%',
+                width: '1px',
+                height: '40%',
+                backgroundColor: '#000000',
+                transform: 'translateX(-50%)',
+                pointerEvents: 'none'
+              }}
+            />
+
+            {/* Vertical Bars at bottom */}
+            <div 
+              className="absolute"
+              style={{
+                bottom: '10%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                gap: '2px',
+                alignItems: 'flex-end',
+                height: '200px',
+                width: '90%',
+                maxWidth: '1200px',
+                justifyContent: 'center'
+              }}
+            >
+              {Array.from({ length: 120 }).map((_, i) => {
+                // Deterministic pattern using sine and cosine waves
+                const baseHeight = 80;
+                const wave1 = Math.sin(i * 0.08) * 40;
+                const wave2 = Math.cos(i * 0.12) * 30;
+                const wave3 = Math.sin(i * 0.05) * 20;
+                const trend = (i / 120) * 60; // Gradual increase from left to right
+                const finalHeight = baseHeight + wave1 + wave2 + wave3 + trend;
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      width: '6px',
+                      height: `${Math.max(20, finalHeight)}px`,
+                      backgroundColor: 'rgba(100, 100, 100, 0.6)',
+                      minHeight: '20px'
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Fourth Design - Rotating Elliptical Rings */}
+        <div 
+          className="w-full h-screen flex items-center justify-center overflow-hidden relative"
+          style={{
+            backgroundColor: '#fefefe'
+          }}
+        >
+          {/* Subtle dot grid background */}
+          <div 
+            className="absolute inset-0 pointer-events-none" 
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(42, 42, 42, 0.15) 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              backgroundPosition: '0 0'
+            }} 
+          />
+
+          {/* Soft gradient glow background */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at 50% 50%, rgba(200, 180, 255, 0.08) 0%, rgba(180, 200, 255, 0.05) 50%, transparent 70%)',
+              filter: 'blur(80px)'
+            }}
+          />
+
+          {/* Main container */}
+          <div 
+            className="relative flex items-center justify-center pointer-events-none"
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute'
+            }}
+          >
+            <svg 
+              width="1200"
+              height="1200"
+              viewBox="0 0 1200 1200"
+              style={{
+                position: 'relative'
+              }}
+            >
+              <defs>
+                {/* Gradient matching the image: white center, pinkish-purple top-left, bluish-purple bottom-right */}
+                <radialGradient id="circleGradient" cx="40%" cy="40%" r="60%">
+                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.95)" />
+                  <stop offset="30%" stopColor="rgba(255, 240, 250, 0.8)" />
+                  <stop offset="50%" stopColor="rgba(255, 200, 240, 0.6)" />
+                  <stop offset="70%" stopColor="rgba(220, 200, 255, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(200, 220, 255, 0.4)" />
+                </radialGradient>
+              </defs>
+
+              {/* Central solid circle - Smaller size */}
+              <circle
+                cx="600"
+                cy="600"
+                r="220"
+                fill="url(#circleGradient)"
+                stroke="rgba(80, 80, 80, 0.8)"
+                strokeWidth="1.5"
+              />
+
+              {/* First dashed elliptical ring - horizontal direction (0°), more curved, fixed position, moving dashes fast */}
+              <g transform="rotate(0 600 600)">
+                <ellipse
+                  cx="600"
+                  cy="600"
+                  rx="220"
+                  ry="70"
+                  fill="none"
+                  stroke="rgba(80, 80, 80, 0.8)"
+                  strokeWidth="1"
+                  strokeDasharray="12 8"
+                  style={{
+                    animation: 'dashMove1 1s linear infinite'
+                  }}
+                />
+              </g>
+
+              {/* Second dashed elliptical ring - rotated 60°, more curved, fixed position, moving dashes fast */}
+              <g transform="rotate(60 600 600)">
+                <ellipse
+                  cx="600"
+                  cy="600"
+                  rx="220"
+                  ry="70"
+                  fill="none"
+                  stroke="rgba(80, 80, 80, 0.8)"
+                  strokeWidth="1"
+                  strokeDasharray="12 8"
+                  style={{
+                    animation: 'dashMove2 1.2s linear infinite'
+                  }}
+                />
+              </g>
+
+              {/* Third dashed elliptical ring - rotated 120°, more curved, fixed position, moving dashes fast */}
+              <g transform="rotate(120 600 600)">
+                <ellipse
+                  cx="600"
+                  cy="600"
+                  rx="220"
+                  ry="70"
+                  fill="none"
+                  stroke="rgba(80, 80, 80, 0.8)"
+                  strokeWidth="1"
+                  strokeDasharray="12 8"
+                  style={{
+                    animation: 'dashMove3 1.5s linear infinite'
+                  }}
+                />
+              </g>
+            </svg>
+          </div>
+        </div>
+
       </div>
     </>
   );
